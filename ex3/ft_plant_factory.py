@@ -19,11 +19,11 @@ class Plant:
 
 def main() -> None:
     """Run the main program."""
-    plants = {"rose": ["Rose", 25, 30],
-              "oak": ["Oak", 200, 365],
-              "cactus": ["Cactus", 5, 90],
-              "sunflower": ["Sunflower", 80, 45],
-              "fern": ["Fern", 15, 120]}
+    plants = {"rose": ("Rose", 25, 30),
+              "oak": ("Oak", 200, 365),
+              "cactus": ("Cactus", 5, 90),
+              "sunflower": ("Sunflower", 80, 45),
+              "fern": ("Fern", 15, 120)}
     plant_objects = {}
     print("=== Plant Factory Output ===")
     for plant in plants:
