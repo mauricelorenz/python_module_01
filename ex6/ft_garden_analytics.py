@@ -16,11 +16,26 @@ class GardenManager:
         for plant in self.plants:
             plant.grow(amount)
 
-    def create_garden_network(self) -> None:
-        pass
+    @classmethod
+    def create_garden_network(cls, owners: list) -> list:
+        owners_objects = []
+        for owner in owners:
+            owners_objects.append(cls(owner))
+        return owners_objects
 
     class GardenStats:
-        pass
+
+        @staticmethod
+        def print_garden_report(garden: "GardenManager") -> None:
+            print(f"=== {garden.owner}'s Garden Report ===")
+            for plant in garden.plants:
+                print(f"- {plant.name}: {plant.height}cm", end="")
+                if isinstance(plant, FloweringPlant):
+                    print(f", {plant.color} flowers "
+                          f"{"(blooming)" if plant.blooming else " "}", end="")
+                if isinstance(plant, PrizeFlower):
+                    print(f", Prize points: {plant.prize_points}", end="")
+                print()
 
 
 class Plant:
@@ -51,14 +66,16 @@ class PrizeFlower(FloweringPlant):
 def main() -> None:
     """Run the main program."""
     print("=== Garden Management System Demo ===\n")
-    alice = GardenManager("Alice")
+    owners = GardenManager.create_garden_network(["Alice", "Bob"])
     oak = Plant("Oak Tree", 101)
     rose = FloweringPlant("Rose", 26, "red", True)
     sunflower = PrizeFlower("Sunflower", 51, "yellow", True, 10)
     for plant in [oak, rose, sunflower]:
-        alice.add_plant(plant)
+        owners[0].add_plant(plant)
     print()
-    alice.help_all_grow(1)
+    owners[0].help_all_grow(1)
+    print()
+    GardenManager.GardenStats.print_garden_report(owners[0])
 
 
 if __name__ == "__main__":
