@@ -3,8 +3,6 @@
 class GardenManager:
     """Represents a GardenManager."""
 
-    plants: list["Plant"]
-
     def __init__(self, owner: str) -> None:
         """Initialize a new GardenManager.
 
@@ -12,7 +10,7 @@ class GardenManager:
             owner: The name of the owner
         """
         self.owner = owner
-        self.plants = []
+        self.plants: list["Plant" | "FloweringPlant" | "PrizeFlower"] = []
 
     def add_plant(self, plant: "Plant") -> None:
         """Add a new Plant to GardenManager.
@@ -20,7 +18,7 @@ class GardenManager:
         Args:
             plant: The Plant object to add
         """
-        self.plants.append(plant)
+        self.plants += [plant]
         print(f"Added {plant.name} to {self.owner}'s garden")
 
     def help_all_grow(self, amount: int) -> None:
@@ -45,7 +43,7 @@ class GardenManager:
         """
         owners_objects = []
         for owner in owners:
-            owners_objects.append(cls(owner))
+            owners_objects += [cls(owner)]
         return owners_objects
 
     class GardenStats:
@@ -60,20 +58,22 @@ class GardenManager:
             """
             growth = 0
             plant_types = [0, 0, 0]
+            plants_len = 0
             print(f"=== {garden.owner}'s Garden Report ===")
             for plant in garden.plants:
                 plant_types[0] += 1
                 print(f"- {plant.name}: {plant.height}cm", end="")
-                if isinstance(plant, FloweringPlant):
+                if plant.blooming is not None:
                     plant_types[1] += 1
                     print(f", {plant.color} flowers "
                           f"{"(blooming)" if plant.blooming else " "}", end="")
-                if isinstance(plant, PrizeFlower):
+                if plant.prize_points is not None:
                     plant_types[2] += 1
                     print(f", Prize points: {plant.prize_points}", end="")
                 print()
                 growth += plant.height - plant.initial_height
-            print(f"Plants added: {len(garden.plants)}, "
+                plants_len += 1
+            print(f"Plants added: {plants_len}, "
                   f"Total growth: {growth}cm")
             print(f"Plant types: {plant_types[0] - plant_types[1]} "
                   f"regular, {plant_types[1] - plant_types[2]} "
@@ -107,13 +107,17 @@ class GardenManager:
             score = 0
             for plant in garden.plants:
                 score += plant.height
-                if isinstance(plant, PrizeFlower):
+                if plant.prize_points is not None:
                     score += plant.prize_points * 4
             return score
 
 
 class Plant:
     """Represents a Plant."""
+
+    color: str | None = None
+    blooming: bool | None = None
+    prize_points: int | None = None
 
     def __init__(self, name: str, height: int) -> None:
         """Initialize a new Plant.
@@ -194,7 +198,10 @@ def main() -> None:
     print(f"Height validation test: {stats.validate_height(owners[0])}")
     print(f"Garden scores - Alice: {stats.get_garden_score(owners[0])}, "
           f"Bob: {stats.get_garden_score(owners[1])}")
-    print(f"Total gardens managed: {len(owners)}")
+    owners_len = 0
+    for owner in owners:
+        owners_len += 1
+    print(f"Total gardens managed: {owners_len}")
 
 
 if __name__ == "__main__":

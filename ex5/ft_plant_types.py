@@ -30,6 +30,7 @@ class Flower(Plant):
         """
         super().__init__(name, height, age)
         self.color = color
+        self.plant_type = "Flower"
 
     def bloom(self) -> None:
         """Print a message that the Flower is blooming."""
@@ -51,10 +52,11 @@ class Tree(Plant):
         """
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
+        self.plant_type = "Tree"
 
     def produce_shade(self) -> None:
         """Print the shade area provided by this Tree in square meters."""
-        print(f"{self.name} provides {int(self.trunk_diameter * 1.56)} "
+        print(f"{self.name} provides {self.trunk_diameter * 1.56:.0f} "
               "square meters of shade")
 
 
@@ -75,6 +77,7 @@ class Vegetable(Plant):
         super().__init__(name, height, age)
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
+        self.plant_type = "Vegetable"
 
 
 def main() -> None:
@@ -90,17 +93,17 @@ def main() -> None:
     vegetables = [tomato, carrot]
     print("=== Garden Plant Types ===\n")
     for flower in flowers:
-        print(f"{flower.name} ({type(flower).__name__}): {flower.height}cm, "
+        print(f"{flower.name} ({flower.plant_type}): {flower.height}cm, "
               f"{flower.age} days, {flower.color} color")
         flower.bloom()
     print()
     for tree in trees:
-        print(f"{tree.name} ({type(tree).__name__}): {tree.height}cm, "
+        print(f"{tree.name} ({tree.plant_type}): {tree.height}cm, "
               f"{tree.age} days, {tree.trunk_diameter}cm diameter")
         tree.produce_shade()
     print()
     for vegetable in vegetables:
-        print(f"{vegetable.name} ({type(vegetable).__name__}): "
+        print(f"{vegetable.name} ({vegetable.plant_type}): "
               f"{vegetable.height}cm, {vegetable.age} days, "
               f"{vegetable.harvest_season} harvest")
         print(f"{vegetable.name} is rich in {vegetable.nutritional_value}")
