@@ -10,7 +10,7 @@ class GardenManager:
             owner: The name of the owner
         """
         self.owner = owner
-        self.plants: list["Plant" | "FloweringPlant" | "PrizeFlower"] = []
+        self.plants: list = []
 
     def add_plant(self, plant: "Plant") -> None:
         """Add a new Plant to GardenManager.
@@ -63,11 +63,12 @@ class GardenManager:
             for plant in garden.plants:
                 plant_types[0] += 1
                 print(f"- {plant.name}: {plant.height}cm", end="")
-                if plant.blooming is not None:
+                if (plant.__class__.__name__ == "FloweringPlant" or
+                        plant.__class__.__name__ == "PrizeFlower"):
                     plant_types[1] += 1
                     print(f", {plant.color} flowers "
                           f"{"(blooming)" if plant.blooming else " "}", end="")
-                if plant.prize_points is not None:
+                if plant.__class__.__name__ == "PrizeFlower":
                     plant_types[2] += 1
                     print(f", Prize points: {plant.prize_points}", end="")
                 print()
@@ -107,17 +108,13 @@ class GardenManager:
             score = 0
             for plant in garden.plants:
                 score += plant.height
-                if plant.prize_points is not None:
+                if plant.__class__.__name__ == "PrizeFlower":
                     score += plant.prize_points * 4
             return score
 
 
 class Plant:
     """Represents a Plant."""
-
-    color: str | None = None
-    blooming: bool | None = None
-    prize_points: int | None = None
 
     def __init__(self, name: str, height: int) -> None:
         """Initialize a new Plant.
