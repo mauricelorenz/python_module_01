@@ -60,6 +60,7 @@ class GardenManager:
             plant_types = [0, 0, 0]
             plants_len = 0
             print(f"=== {garden.owner}'s Garden Report ===")
+            print("Plants in garden:")
             for plant in garden.plants:
                 plant_types[0] += 1
                 print(f"- {plant.name}: {plant.height}cm", end="")
@@ -74,7 +75,7 @@ class GardenManager:
                 print()
                 growth += plant.height - plant.initial_height
                 plants_len += 1
-            print(f"Plants added: {plants_len}, "
+            print(f"\nPlants added: {plants_len}, "
                   f"Total growth: {growth}cm")
             print(f"Plant types: {plant_types[0] - plant_types[1]} "
                   f"regular, {plant_types[1] - plant_types[2]} "
