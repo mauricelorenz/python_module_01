@@ -67,7 +67,7 @@ class GardenManager:
                         plant.__class__.__name__ == "PrizeFlower"):
                     plant_types[1] += 1
                     print(f", {plant.color} flowers "
-                          f"{"(blooming)" if plant.blooming else " "}", end="")
+                          f"{'(blooming)' if plant.blooming else ' '}", end="")
                 if plant.__class__.__name__ == "PrizeFlower":
                     plant_types[2] += 1
                     print(f", Prize points: {plant.prize_points}", end="")
